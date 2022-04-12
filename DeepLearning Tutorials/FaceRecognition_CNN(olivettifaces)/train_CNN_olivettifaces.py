@@ -200,13 +200,12 @@ class LeNetConvPoolLayer(object):
 
 #保存训练参数的函数
 def save_params(param1,param2,param3,param4):  
-        import cPickle  
-        write_file = open('params.pkl', 'wb')   
+    import cPickle
+    with open('params.pkl', 'wb') as write_file:
         cPickle.dump(param1, write_file, -1)
         cPickle.dump(param2, write_file, -1)
         cPickle.dump(param3, write_file, -1)
-        cPickle.dump(param4, write_file, -1)
-        write_file.close()  
+        cPickle.dump(param4, write_file, -1)  
 
 
 

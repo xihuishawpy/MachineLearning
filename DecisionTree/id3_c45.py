@@ -21,8 +21,8 @@ class DecisionTree:
     """
     def __init__(self,mode='C4.5'):
         self._tree = None
-        
-        if mode == 'C4.5' or mode == 'ID3':
+
+        if mode in ['C4.5', 'ID3']:
             self._mode = mode
         else:
             raise Exception('mode should be C4.5 or ID3')
@@ -53,12 +53,9 @@ class DecisionTree:
         """
         函数功能：返回数据集中特征下标为index，特征值等于value的子数据集
         """
-        ret = []
         featVec = X[:,index]
         X = X[:,[i for i in range(X.shape[1]) if i!=index]]
-        for i in range(len(featVec)):
-            if featVec[i]==value:
-                ret.append(i)
+        ret = [i for i in range(len(featVec)) if featVec[i]==value]
         return X[ret,:],y[ret]
     
     
@@ -105,7 +102,7 @@ class DecisionTree:
         bestGainRatio = 0.0
         bestFeatureIndex = -1
         #对每个特征都计算一下gainRatio=infoGain/splitInformation
-        for i in range(numFeatures):        
+        for i in range(numFeatures):    
             featList = X[:,i]
             uniqueVals = set(featList)
             newEntropy = 0.0
@@ -119,9 +116,7 @@ class DecisionTree:
                 splitInformation -= prob * np.log2(prob)
             #计算信息增益比，根据信息增益比选择最佳分割特征
             #splitInformation若为0，说明该特征的所有值都是相同的，显然不能作为分割特征
-            if splitInformation==0.0:
-                pass
-            else:
+            if splitInformation != 0.0:
                 infoGain = oldEntropy - newEntropy
                 gainRatio = infoGain/splitInformation
                 if(gainRatio > bestGainRatio):
@@ -178,16 +173,14 @@ class DecisionTree:
     
     def fit(self,X,y):
         #类型检查
-        if isinstance(X,np.ndarray) and isinstance(y,np.ndarray):
-            pass
-        else: 
+        if not isinstance(X, np.ndarray) or not isinstance(y, np.ndarray):
             try:
                 X = np.array(X)
                 y = np.array(y)
             except:
                 raise TypeError("numpy.ndarray required for X,y")
-        
-        featureIndex = tuple(['x'+str(i) for i in range(X.shape[1])])
+
+        featureIndex = tuple(f'x{str(i)}' for i in range(X.shape[1]))
         self._tree = self._createTree(X,y,featureIndex)
         return self  #allow chaining: clf.fit().predict()
 
@@ -217,10 +210,11 @@ class DecisionTree:
             secondDict = tree[featIndex]
             key = sample[int(featIndex[1:])]
             valueOfkey = secondDict[key]
-            if isinstance(valueOfkey, dict): 
-                label = _classify(valueOfkey,sample)
-            else: label = valueOfkey
-            return label
+            return (
+                _classify(valueOfkey, sample)
+                if isinstance(valueOfkey, dict)
+                else valueOfkey
+            )
             
         if len(X.shape)==1:
             return _classify(self._tree,X)
@@ -231,9 +225,9 @@ class DecisionTree:
             return np.array(results)
         
     def show(self):
-        if self._tree==None:
+        if self._tree is None:
             raise NotFittedError("Estimator not fitted, call `fit` first")
-        
+
         #plot the tree using matplotlib
         import treePlotter
         treePlotter.createPlot(self._tree)

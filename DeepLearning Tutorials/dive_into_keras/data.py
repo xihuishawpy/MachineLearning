@@ -21,7 +21,7 @@ def load_data():
 	imgs = os.listdir("./mnist")
 	num = len(imgs)
 	for i in range(num):
-		img = Image.open("./mnist/"+imgs[i])
+		img = Image.open(f"./mnist/{imgs[i]}")
 		arr = np.asarray(img,dtype="float32")
 		data[i,:,:,:] = arr
 		label[i] = int(imgs[i].split('.')[0])

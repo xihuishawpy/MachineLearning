@@ -24,12 +24,11 @@ from theano.tensor.nnet import conv
 #读取之前保存的训练参数
 #layer0_params~layer3_params都是包含W和b的,layer*_params[0]是W，layer*_params[1]是b
 def load_params(params_file):
-    f=open(params_file,'rb')
-    layer0_params=cPickle.load(f)
-    layer1_params=cPickle.load(f)
-    layer2_params=cPickle.load(f)
-    layer3_params=cPickle.load(f)
-    f.close()
+    with open(params_file,'rb') as f:
+        layer0_params=cPickle.load(f)
+        layer1_params=cPickle.load(f)
+        layer2_params=cPickle.load(f)
+        layer3_params=cPickle.load(f)
     return layer0_params,layer1_params,layer2_params,layer3_params
 
 #读取图像，返回numpy.array类型的人脸数据以及对应的label

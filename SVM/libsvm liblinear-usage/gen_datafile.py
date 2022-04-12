@@ -9,8 +9,8 @@ import csv
 
 #获取图像标签，以jaffe数据库为例。
 def getlabel(img_name):
-	face_expression = img_name.split('.')[1]   
-	face_expression = face_expression[0:2]     
+	face_expression = img_name.split('.')[1]
+	face_expression = face_expression[:2]
 	table={'HA':1,'AN':2,'SU':3,'FE':4,'DI':5,'SA':6,'NE':7}
 	return table.get(face_expression)
 

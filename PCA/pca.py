@@ -14,10 +14,8 @@ def percent2n(eigVals,percent):
     sortArray=sortArray[-1::-1]  #逆转，即降序
     arraySum=sum(sortArray)
     tmp=0
-    num=0
-    for i in sortArray:
+    for num, i in enumerate(sortArray, start=1):
         tmp+=i
-        num+=1
         if tmp>=arraySum*percent:
             return num
 #零均值化

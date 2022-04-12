@@ -3,15 +3,15 @@ import cPickle
 import matplotlib.pyplot as plt
 import numpy as np
 from kmeans import KMeans,biKMeans
-    
+
 if __name__ == "__main__":
     #加载数据
     X,y = cPickle.load(open('data.pkl','r'))
 
+    #设置参数
+    n_clusters = 10
     #依次画出迭代1次、2次、3次...的图
     for max_iter in range(6):
-        #设置参数
-        n_clusters = 10
         initCent = X[50:60] #将初始质心初始化为X[50:60]
         #训练模型
         clf = KMeans(n_clusters,initCent,max_iter)

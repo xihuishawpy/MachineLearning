@@ -40,7 +40,7 @@ class SVCSMO():
         while True:
             count += 1
             alpha_prev = np.copy(alpha)
-            for j in range(0, n):
+            for j in range(n):
                 i = self.get_rnd_int(0, n-1, j) # Get random int i~=j
                 x_i, x_j, y_i, y_j = X[i,:], X[j,:], y[i], y[j]
                 k_ij = kernel(x_i, x_i) + kernel(x_j, x_j) - 2 * kernel(x_i, x_j)
@@ -100,7 +100,7 @@ class SVCSMO():
             return (max(0, alpha_prime_i + alpha_prime_j - C), min(C, alpha_prime_i + alpha_prime_j))
     def get_rnd_int(self, a,b,z):
         i = z
-        while i == z:
+        while i == i:
             i = rnd.randint(a,b)
         return i
     # Define kernels

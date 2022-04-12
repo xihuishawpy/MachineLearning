@@ -11,6 +11,7 @@
 现在keras的API也发生了一些的变化，建议及推荐直接上keras.io看更加详细的教程。
 
 '''
+
 #导入各种用到的模块组件
 from __future__ import absolute_import
 from __future__ import print_function
@@ -34,7 +35,7 @@ np.random.seed(1024)  # for reproducibility
 #加载数据
 data, label = load_data()
 #打乱数据
-index = [i for i in range(len(data))]
+index = list(range(len(data)))
 random.shuffle(index)
 data = data[index]
 label = label[index]
@@ -54,7 +55,7 @@ model = Sequential()
 #border_mode可以是valid或者full，具体看这里说明：http://deeplearning.net/software/theano/library/tensor/nnet/conv.html#theano.tensor.nnet.conv.conv2d
 #激活函数用tanh
 #你还可以在model.add(Activation('tanh'))后加上dropout的技巧: model.add(Dropout(0.5))
-model.add(Convolution2D(4, 5, 5, border_mode='valid',input_shape=(1,28,28))) 
+model.add(Convolution2D(4, 5, 5, border_mode='valid',input_shape=(1,28,28)))
 model.add(Activation('tanh'))
 
 
@@ -68,7 +69,7 @@ model.add(MaxPooling2D(pool_size=(2, 2)))
 #第三个卷积层，16个卷积核，每个卷积核大小3*3
 #激活函数用tanh
 #采用maxpooling，poolsize为(2,2)
-model.add(Convolution2D(16, 3, 3, border_mode='valid')) 
+model.add(Convolution2D(16, 3, 3, border_mode='valid'))
 model.add(Activation('tanh'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 

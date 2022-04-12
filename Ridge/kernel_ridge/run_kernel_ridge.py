@@ -9,8 +9,7 @@ def readData(filename, header=True):
         spamreader = csv.reader(csvfile, delimiter=',')
         if header:
             header = spamreader.next()
-        for row in spamreader:
-            data.append(row)
+        data.extend(iter(spamreader))
     return (np.array(data), np.array(header))
 
 def calc_mse(y, y_hat):

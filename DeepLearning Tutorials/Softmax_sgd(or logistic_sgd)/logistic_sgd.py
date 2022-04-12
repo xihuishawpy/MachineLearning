@@ -115,11 +115,10 @@ def load_data(dataset):
     return rval
 
 def save_params(param1,param2):
-	import cPickle
-	write_file = open('params', 'wb') 
-	cPickle.dump(param1.get_value(borrow=True), write_file, -1)
-	cPickle.dump(param2.get_value(borrow=True), write_file, -1)
-	write_file.close()	
+    import cPickle
+    with open('params', 'wb') as write_file:
+        cPickle.dump(param1.get_value(borrow=True), write_file, -1)
+        cPickle.dump(param2.get_value(borrow=True), write_file, -1)	
 
 def sgd_optimization_mnist(learning_rate=0.13, n_epochs=3,
                            dataset='mnist.pkl.gz',

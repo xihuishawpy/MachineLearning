@@ -38,13 +38,13 @@ if __name__ == "__main__":
     #load data
     data, label = load_data()
     #shuffle the data
-    index = [i for i in range(len(data))]
+    index = list(range(len(data)))
     random.shuffle(index)
     data = data[index]
     label = label[index]
-    
-    (traindata,testdata) = (data[0:30000],data[30000:])
-    (trainlabel,testlabel) = (label[0:30000],label[30000:])
+
+    (traindata,testdata) = data[:30000], data[30000:]
+    (trainlabel,testlabel) = label[:30000], label[30000:]
     #use origin_model to predict testdata
     origin_model = cPickle.load(open("model.pkl","rb"))
     #print(origin_model.layers)
@@ -58,4 +58,4 @@ if __name__ == "__main__":
     #train svm using FC-layer feature
     scaler = MinMaxScaler()
     feature = scaler.fit_transform(feature)
-    svc(feature[0:30000],label[0:30000],feature[30000:],label[30000:])
+    svc(feature[:30000], label[:30000], feature[30000:], label[30000:])

@@ -71,12 +71,12 @@ model = create_model()
 sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(loss='categorical_crossentropy', optimizer=sgd)
 
-index = [i for i in range(len(data))]
+index = list(range(len(data)))
 random.shuffle(index)
 data = data[index]
 label = label[index]
-(X_train,X_val) = (data[0:30000],data[30000:])
-(Y_train,Y_val) = (label[0:30000],label[30000:])
+(X_train,X_val) = data[:30000], data[30000:]
+(Y_train,Y_val) = label[:30000], label[30000:]
 
 #使用early stopping返回最佳epoch对应的model
 early_stopping = EarlyStopping(monitor='val_loss', patience=1)

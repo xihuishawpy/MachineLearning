@@ -10,8 +10,7 @@ def readData(filename, header=True):
         spamreader = csv.reader(csvfile, delimiter=',')
         if header:
             header = spamreader.next()
-        for row in spamreader:
-            data.append(row)
+        data.extend(iter(spamreader))
     return (np.array(data), np.array(header))
 
 def calc_acc(y, y_hat):
@@ -26,7 +25,7 @@ def calc_mse(y, y_hat):
 
 def test_main(filename='data/iris-virginica.txt', C=1.0, kernel_type='linear', epsilon=0.001):
     # Load data
-    (data, _) = readData('%s/%s' % (filepath, filename), header=False)
+    (data, _) = readData(f'{filepath}/{filename}', header=False)
     data = data.astype(float)
 
     # Split data
@@ -56,12 +55,12 @@ def test_main(filename='data/iris-virginica.txt', C=1.0, kernel_type='linear', e
     print("Converged after %d iterations" % (iterations))
 
 if __name__ == '__main__':
-    param = {}
-    param['filename'] = './small_data/iris-slwc.txt'
-    param['C'] = 0.1
-    param['kernel_type'] = 'linear'
-    param['epsilon'] = 0.001
-
+    param = {
+        'filename': './small_data/iris-slwc.txt',
+        'C': 0.1,
+        'kernel_type': 'linear',
+        'epsilon': 0.001,
+    }
 
     test_main(**param)
 
